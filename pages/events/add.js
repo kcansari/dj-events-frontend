@@ -1,10 +1,10 @@
-import React from 'react'
+import Layout from '../../components/Layout'
 
 const AddEventPage = () => {
   return (
-    <div>
+    <Layout title={'Add Event'}>
       <h1>Add Event</h1>
-    </div>
+    </Layout>
   )
 }
 
