@@ -11,24 +11,24 @@ export default function HomePage({ events }) {
       {events.length === 0 && <h3>No events to show</h3>}
 
       {events.map((evt) => (
-        <EventItem key={evt.id} evt={evt} />
+        <EventItem key={evt.id} evt={evt.attributes} />
       ))}
 
-      {events.length > 0 && (
+      {/* {events.length > 0 && (
         <Link href={`/events`} className={'btn-secondary'}>
           View All Events
         </Link>
-      )}
+      )} */}
     </Layout>
   )
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/api/events/`)
+  const res = await fetch(`${API_URL}/api/events?populate=*`)
   const events = await res.json()
-  // console.log(events)
+  // console.log(events.data)
   return {
-    props: { events: events.slice(0, 3) },
+    props: { events: events.data },
     // relidate: 1,
   }
 }
