@@ -6,11 +6,12 @@ import Image from 'next/image'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 
 const EventPage = ({ evt }) => {
-  // console.log(evt)
+  console.log(evt)
 
   const deleteEvent = (e) => {
     console.log('delete')
   }
+
   return (
     <Layout>
       <div className={styles.event}>
@@ -27,7 +28,7 @@ const EventPage = ({ evt }) => {
           {evt.attributes.time}
         </span>
         <h1>{evt.attributes.name}</h1>
-        {evt.attributes.image && (
+        {/* {evt.attributes.image && (
           <div className={styles.image}>
             <Image
               alt={evt.attributes.image.data.attributes.name}
@@ -36,7 +37,18 @@ const EventPage = ({ evt }) => {
               height={600}
             />
           </div>
-        )}
+        )} */}
+
+        {/* <Image
+          src={
+            evt.attributes.image
+              ? '/images/event-default.png'
+              : evt.attributes.image
+          }
+          alt={evt.name}
+          width={960}
+          height={600}
+        /> */}
 
         <h3>Performers:</h3>
         <p>{evt.attributes.performers}</p>
@@ -58,7 +70,7 @@ export async function getStaticPaths() {
   const events = await res.json()
   let { data } = events
 
-  // console.log(data[0].attributes)
+  console.log(data)
   const paths = data.map((evt) => ({
     params: { slug: evt.attributes.Slug },
   }))
@@ -70,14 +82,16 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {
+  // console.log(slug)
   const res = await fetch(
     `${API_URL}/api/events?filters[Slug][$eq]=${slug}&populate=*`
   )
   const events = await res.json()
-  // console.log(events.data[0].attributes)
+  // console.log(events)
   return {
     props: {
       evt: events.data[0],
+      relidate: 1,
     },
   }
 }

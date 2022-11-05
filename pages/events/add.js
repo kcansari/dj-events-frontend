@@ -4,10 +4,14 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.css'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import slugify from 'slugify'
 
 const AddEventPage = () => {
   const [values, setValues] = useState({
     name: '',
+    Slug: '',
     performers: '',
     venue: '',
     address: '',
@@ -18,9 +22,37 @@ const AddEventPage = () => {
 
   const router = useRouter()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Validation
+    const hasEmptyFields = Object.values(values).some(
+      (element) => element === ''
+    )
+
+    if (hasEmptyFields) {
+      toast.error('Please fill in all fields')
+    }
+
+    const res = await fetch(`${API_URL}/api/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: values }),
+    })
+
+    if (!res.ok) {
+      toast.error('Something Went Wrong')
+      // console.log(res.ok)
+    } else {
+      const evt = await res.json()
+      // console.log(evt.data.attributes)
+      router.push(`/events/${evt.data.attributes.Slug}`)
+      // router.push('/events')
+    }
   }
+
   const handleInputChange = (e) => {
     e.preventDefault()
     const { name, value } = e.target
@@ -31,6 +63,7 @@ const AddEventPage = () => {
     <Layout title={'Add Event'}>
       <Link href={`/events`}>{'<'} Go Back</Link>
       <h1>Add Event</h1>
+      <ToastContainer />
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
@@ -41,6 +74,17 @@ const AddEventPage = () => {
               id='name'
               name='name'
               value={values.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor='slug'>Slug Name</label>
+            <input
+              type='text'
+              id='slug'
+              name='slug'
+              disabled
+              value={(values.Slug = slugify(values.name, { lower: true }))}
               onChange={handleInputChange}
             />
           </div>

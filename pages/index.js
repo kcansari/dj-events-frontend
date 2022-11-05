@@ -14,11 +14,11 @@ export default function HomePage({ events }) {
         <EventItem key={evt.id} evt={evt.attributes} />
       ))}
 
-      {/* {events.length > 0 && (
+      {events.length > 0 && (
         <Link href={`/events`} className={'btn-secondary'}>
           View All Events
         </Link>
-      )} */}
+      )}
     </Layout>
   )
 }
