@@ -1,6 +1,7 @@
 import { FaImage } from 'react-icons/fa'
 import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
+import ImageUpload from '@/components/ImageUpload'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -68,6 +69,15 @@ const EditEventPage = ({ evt, eventId }) => {
     e.preventDefault()
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
+  }
+
+  const imageUploaded = async (e) => {
+    const res = await fetch(`${API_URL}/api/events/${eventId}?populate=*`)
+    const data = await res.json()
+    setImagePreview(
+      data.data.attributes.image.data.attributes.formats.thumbnail.url
+    )
+    setShowModal(false)
   }
 
   return (
@@ -193,7 +203,7 @@ const EditEventPage = ({ evt, eventId }) => {
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        IMAGE UPLOAD
+        <ImageUpload evtId={eventId} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   )

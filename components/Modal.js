@@ -6,7 +6,7 @@ import { FaTimes } from 'react-icons/fa'
 export const Modal = ({ show, onClose, children, title }) => {
   const [isBrowser, setIsBrowser] = useState(false)
 
-  useEffect(() => setIsBrowser(true))
+  useEffect(() => setIsBrowser(true), [isBrowser])
 
   const handleClose = (e) => {
     e.preventDefault()
