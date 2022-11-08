@@ -1,5 +1,6 @@
 import { FaImage } from 'react-icons/fa'
 import Layout from '@/components/Layout'
+import Modal from '@/components/Modal'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -26,7 +27,9 @@ const EditEventPage = ({ evt, eventId }) => {
   const [imagePreview, setImagePreview] = useState(
     evt.image.data ? evt.image.data.attributes.formats.thumbnail.url : null
   )
-  console.log(imagePreview)
+  //   console.log(imagePreview)
+
+  const [showModal, setShowModal] = useState(false)
 
   const router = useRouter()
 
@@ -179,6 +182,7 @@ const EditEventPage = ({ evt, eventId }) => {
       <div>
         <button
           className='btn-secondary'
+          onClick={() => setShowModal(true)}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -187,6 +191,10 @@ const EditEventPage = ({ evt, eventId }) => {
           Set Image <FaImage style={{ marginLeft: 10 }} />
         </button>
       </div>
+
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        IMAGE UPLOAD
+      </Modal>
     </Layout>
   )
 }
