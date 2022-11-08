@@ -23,12 +23,13 @@ export default function HomePage({ events }) {
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/api/events?populate=*`)
+export async function getServerSideProps({ query: { page = 1 } }) {
+  const res = await fetch(
+    `${API_URL}/api/events?populate=*&pagination[limit]=${3}`
+  )
   const events = await res.json()
-  // console.log(events.data)
+  // console.log(page)
   return {
     props: { events: events.data },
-    // relidate: 1,
   }
 }
