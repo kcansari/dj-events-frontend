@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 
 const EventPage = ({ evt }) => {
   const router = useRouter()
-  // console.log(evt)
+  // console.log(evt.attributes.image)
 
   const deleteEvent = async (e) => {
     if (confirm('Are you sure?')) {
@@ -45,7 +45,8 @@ const EventPage = ({ evt }) => {
         </span>
         <h1>{evt.attributes.name}</h1>
         <ToastContainer />
-        {/* {evt.attributes.image && (
+
+        {evt.attributes.image.data !== null ? (
           <div className={styles.image}>
             <Image
               alt={evt.attributes.image.data.attributes.name}
@@ -54,7 +55,16 @@ const EventPage = ({ evt }) => {
               height={600}
             />
           </div>
-        )} */}
+        ) : (
+          <div className={styles.image}>
+            <Image
+              alt={'Default Photo'}
+              src={'/images/event-default.png'}
+              width={960}
+              height={600}
+            />
+          </div>
+        )}
 
         {/* <Image
           src={
@@ -87,7 +97,7 @@ export async function getStaticPaths() {
   const events = await res.json()
   let { data } = events
 
-  console.log(data)
+  // console.log(data)
   const paths = data.map((evt) => ({
     params: { slug: evt.attributes.Slug },
   }))
