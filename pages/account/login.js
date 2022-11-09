@@ -13,8 +13,6 @@ const LoginPage = () => {
 
   const { login, error } = useContext(AuthContext)
 
-  // useEffect( () => error && toast.error(error))
-
   // useEffect(() => {
   //   async function fetchData() {
   //     // You can await here

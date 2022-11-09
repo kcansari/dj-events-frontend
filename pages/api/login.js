@@ -1,4 +1,4 @@
-// import cookie from 'cookie'
+import cookie from 'cookie'
 import { API_URL } from '@/config/index'
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
@@ -18,7 +18,7 @@ export default async (req, res) => {
     })
 
     const data = await strapiRes.json()
-    // console.log(data.error.status)
+    // console.log(data)
     // if (strapiRes.ok) {
     //   console.log('strapiRes ok')
     // } else {
@@ -27,16 +27,16 @@ export default async (req, res) => {
 
     if (strapiRes.ok) {
       // Set Cookie
-      //   res.setHeader(
-      //     'Set-Cookie',
-      //     cookie.serialize('token', data.jwt, {
-      //       httpOnly: true,
-      //       secure: process.env.NODE_ENV !== 'development',
-      //       maxAge: 60 * 60 * 24 * 7, // 1 week
-      //       sameSite: 'strict',
-      //       path: '/',
-      //     })
-      //   )
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('token', data.jwt, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
+          sameSite: 'strict',
+          path: '/',
+        })
+      )
       res.status(200).json({ user: data.user })
     } else {
       res.status(data.error.status).json({ message: data.error.message })
