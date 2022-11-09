@@ -13,6 +13,17 @@ const LoginPage = () => {
 
   const { login, error } = useContext(AuthContext)
 
+  // useEffect( () => error && toast.error(error))
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     // You can await here
+  //     toast.error(error)
+  //     // ...
+  //   }
+  //   fetchData()
+  // }, [error]) // Or [] if effect doesn't need props or state
+
   const handleSubmit = (e) => {
     e.preventDefault()
     login({ email, password })
