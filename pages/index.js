@@ -28,7 +28,7 @@ export async function getServerSideProps({ query: { page = 1 } }) {
     `${API_URL}/api/events?populate=*&pagination[limit]=${3}`
   )
   const events = await res.json()
-  // console.log(page)
+  // console.log(events)
   return {
     props: { events: events.data },
   }
