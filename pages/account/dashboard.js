@@ -1,16 +1,16 @@
 import { parseCookies } from '@/helpers/index'
 import { useRouter } from 'next/router'
 import Layout from '@/components/Layout'
-// import DashboardEvent from '@/components/DashboardEvent'
+import DashboardEvent from '@/components/DashboardEvent'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Dashboard.module.css'
 
-export default function DashboardPage({ events, token }) {
+const DashboardPage = ({ events, token }) => {
   const router = useRouter()
   // console.log(events)
   const deleteEvent = async (id) => {
     if (confirm('Are you sure?')) {
-      const res = await fetch(`${API_URL}/events/${id}`, {
+      const res = await fetch(`${API_URL}/api/events/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,13 +33,16 @@ export default function DashboardPage({ events, token }) {
         <h1>Dashboard</h1>
         <h3>My Events</h3>
 
-        {/* {events.map((evt) => ({
-           <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} /> 
-        }))} */}
+        {events.map((evt) => (
+          /* <h3 key={evt.id}>{evt.name}</h3> */
+          <DashboardEvent key={evt.id} evt={evt} handleDete={deleteEvent} />
+        ))}
       </div>
     </Layout>
   )
 }
+
+export default DashboardPage
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
