@@ -47,6 +47,7 @@ const AddEventPage = ({ token }) => {
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
         toast.error('No token included')
+        return
       }
       toast.error('Something Went Wrong')
       // console.log(evt.data)
