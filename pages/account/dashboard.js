@@ -8,6 +8,7 @@ import styles from '@/styles/Dashboard.module.css'
 const DashboardPage = ({ events, token }) => {
   const router = useRouter()
   // console.log(events)
+
   const deleteEvent = async (id) => {
     if (confirm('Are you sure?')) {
       const res = await fetch(`${API_URL}/api/events/${id}`, {
@@ -35,7 +36,7 @@ const DashboardPage = ({ events, token }) => {
 
         {events.map((evt) => (
           /* <h3 key={evt.id}>{evt.name}</h3> */
-          <DashboardEvent key={evt.id} evt={evt} handleDete={deleteEvent} />
+          <DashboardEvent key={evt.id} evt={evt} deleteEvent={deleteEvent} />
         ))}
       </div>
     </Layout>
