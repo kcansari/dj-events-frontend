@@ -1,3 +1,4 @@
+import { parseCookies } from '@/helpers/index'
 import Layout from '@/components/Layout'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
@@ -8,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import slugify from 'slugify'
 
-const AddEventPage = () => {
+const AddEventPage = ({ token }) => {
   const [values, setValues] = useState({
     name: '',
     Slug: '',
@@ -38,17 +39,22 @@ const AddEventPage = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ data: values }),
     })
 
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('No token included')
+      }
       toast.error('Something Went Wrong')
-      // console.log(res.ok)
+      // console.log(evt.data)
     } else {
       const evt = await res.json()
-      // console.log(evt.data.attributes)
-      router.push(`/events/${evt.data.attributes.Slug}`)
+      // console.log(evt.Slug)
+      router.push(`/events/${evt.Slug}`)
+      // router.push(`/events/${evt.data.attributes.Slug}`)
       // router.push('/events')
     }
   }
@@ -158,3 +164,13 @@ const AddEventPage = () => {
 }
 
 export default AddEventPage
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  // console.log(token)
+  return {
+    props: {
+      token,
+    },
+  }
+}
