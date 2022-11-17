@@ -108,7 +108,7 @@ const EventPage = ({ evt }) => {
 // }
 
 export async function getServerSideProps({ query: { slug } }) {
-  const res = await fetch(`${API_URL}/api/events?slug=${slug}`)
+  const res = await fetch(`${API_URL}/api/events?filters[Slug][$eq]=${slug}`)
 
   const events = await res.json()
   return {
