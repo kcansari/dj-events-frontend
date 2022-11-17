@@ -12,6 +12,22 @@ const EventPage = ({ evt }) => {
   const router = useRouter()
   // console.log(evt.attributes.image)
 
+  const handleImage = () => {
+    if (evt.attributes.image.data.attributes.formats.large !== undefined) {
+      return evt.attributes.image.data.attributes.formats.large.url
+    } else if (
+      evt.attributes.image.data.attributes.formats.medium !== undefined
+    ) {
+      return evt.attributes.image.data.attributes.formats.medium.url
+    } else if (
+      evt.attributes.image.data.attributes.formats.small !== undefined
+    ) {
+      return evt.attributes.image.data.attributes.formats.small.url
+    } else {
+      return evt.attributes.image.data.attributes.formats.thumbnail.url
+    }
+  }
+
   return (
     <Layout>
       <div className={styles.event}>
@@ -34,7 +50,7 @@ const EventPage = ({ evt }) => {
           <div className={styles.image}>
             <Image
               alt={evt.attributes.image.data.attributes.name}
-              src={evt.attributes.image.data.attributes.formats.large.url}
+              src={handleImage()}
               width={960}
               height={600}
             />
