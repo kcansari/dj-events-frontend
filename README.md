@@ -27,6 +27,5 @@
 
 The Strapi backend can be found [here](https://github.com/kcansari/dj-events-backend/tree/temp-branch)
 
-## [Demo](https://djeventskcs.netlify.app/)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
